@@ -9,12 +9,14 @@ tasks_dict = requests.get('https://json.medrocket.ru/todos').json()
 
 
 def main():
-    '''Основная функция в которой:
+    '''
+    Основная функция в которой:
     1. Берём из ссылок информацию и вносим их в переменные
     2. Делаем проверку длины задач, чтобы не превышало 46 элементов
     3. Ведём подсчет Актуальных и Завершённых задач
     4. Перед каждой строчкой задач обязательно вставляем "-"
-    5. Проверяем на различные исключения'''
+    5. Проверяем на различные исключения
+    '''
     for user in users_dict:
         company = user['company']['name']
         current_time = datetime.datetime.now().strftime('%d.%m.%Y %H:%M')
@@ -56,9 +58,11 @@ def main():
     get_fail()
 
 def create_report(file_name, content):
-    '''Функция принимает значения content
+    '''
+    Функция принимает значения content
     по полученным данным формируется
-    и возвращается отчёт'''
+    и возвращается отчёт
+    '''
     if os.path.exists(f'tasks/{file_name}.txt'):
         change_file_name(file_name)
     if not os.path.isdir("tasks"):
@@ -68,9 +72,11 @@ def create_report(file_name, content):
     file.close()
 
 def get_fail():
-    '''Создаём файл с пустыми задачами
+    '''
+    Создаём файл с пустыми задачами
     которые имею id
-    но наполнение отсутствует'''
+    но наполнение отсутствует
+    '''
     content = ''
     for task in tasks_dict:
         if 'userId' not in task:
@@ -78,9 +84,11 @@ def get_fail():
     create_report('Некорректные задачи', content)
 
 def change_file_name(file_name):
-    '''Функция, которая переименовывает в папке "tasks"
+    '''
+    Функция, которая переименовывает в папке "tasks"
     файл структуры "Name.txt"
-    на "old_Name_2020-09-23T15:25.txt" '''
+    на "old_Name_2020-09-23T15:25.txt"
+    '''
     creation_time = time.localtime(os.path.getmtime(f"tasks/{file_name}.txt"))
     title_time = time.strftime('%Y-%m-%dT%H.%M', creation_time)
     return os.rename(f"tasks/{file_name}.txt", f"tasks/old_{file_name}_{title_time}.txt")
